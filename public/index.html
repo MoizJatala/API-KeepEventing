@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form</title>
+</head>
+<body>
+  <h1>Registration Form</h1>
+ <form id="registration-form">
+    <div>
+      <!-- <input type="text" id="uId"> -->
+      <input type="text" id="id" name="id">
+      Name<input type="text" id="name" name="name">
+
+      Email<input type="text" id="email" name="email">
+      Phone<input type="text" id="ph" name="phone">
+
+      Add<input type="text" id="add" name="address">
+
+      CNIC<input type="text" id="cnic" name="CNIC">
+      Pass<input type="password" id="pass" name="password">
+
+
+
+    </div>
+    <div>
+      <button id="btn">Register</button>
+    </div>
+  </form>
+  <p id="cont"></p>
+  <script>
+    
+      const form = document.querySelector('form');
+      const btn = document.getElementById('btn')
+      const para = document.getElementById('cont');
+      const baseurl = 'http://localhost:3000/registered';
+      
+      // btn.addEventListener('click', getinfo);
+      // async function getinfo(event){
+      //   event.preventDefault();
+      //   var in_put = document.getElementById('uId').value;
+      //   const response = await fetch(baseurl + '/'+in_put , {
+      //       method: 'GET',
+            
+      //     });
+      //     console.log(response);
+      //     const muad = await response.json();
+      //     const json = JSON.stringify(muad);
+      //    // var obj = JSON.parse(json);
+      //     form.innerHTML = json;
+      // }
+    
+  //     form.addEventListener('submit', postinfo);
+  //     async function postinfo(event){
+  //       event.preventDefault();
+  //       const data = new FormData(event.target);
+
+  //  const value = Object.fromEntries(data.entries());
+
+  //       const response = await fetch(baseurl , {
+  //           method: 'POST',
+  //           headers:{
+  //             'Content-Type': 'application/json'
+  //           },
+  //           body: JSON.stringify(value)
+  //         });
+         
+  //      const muad = await response.json();
+  //     const json = JSON.stringify(muad);
+  //     var obj = JSON.parse(json);
+  //     form.innerHTML = json;
+  //       }
+  // btn.addEventListener('click', deleteinfo);
+  //     async function deleteinfo(event){
+  //       event.preventDefault();
+  //       var in_put = document.getElementById('uId').value;
+  //       const response = await fetch(baseurl + '/'+in_put , {
+  //           method: 'DELETE',
+            
+  //         });
+  //         console.log(response);
+  //         const muad = await response.json();
+  //         const json = JSON.stringify(muad);
+  //        // var obj = JSON.parse(json);
+  //         form.innerHTML = json;
+  //     }
+  form.addEventListener('submit', updateInfo); // Change the event listener to call updateInfo function
+  
+  async function updateInfo(event) {
+    event.preventDefault();
+    
+    const id = document.getElementById('email').value; // Get the registration ID from the hidden field
+    const data = new FormData(event.target);
+    const value = Object.fromEntries(data.entries());
+
+    const response = await fetch(baseurl + '?email=' + id, { // Append the ID to the URL
+      method: 'PUT', // Use PUT method for updating
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(value)
+    });
+
+    const result = await response.json();
+    const json = JSON.stringify(result);
+    var obj = JSON.parse(json);
+    form.innerHTML = json;
+  }
+  </script>
+</body>
+</html>
